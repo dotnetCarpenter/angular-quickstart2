@@ -1,11 +1,6 @@
 (function(app) {
 
-  class Hero {
-    constructor(conf = {}) {
-      this.id = conf.id || 0|0
-      this.name = conf.name || ""
-    }
-  }
+  const Hero = app.Hero
 
   /**
    * @description The HEROES array is of type Hero, the class defined in part one, to create an array of heroes. We aspire to fetch this list of heroes from a web service, but let’s take small steps first and display mock heroes.
@@ -25,6 +20,7 @@
 
   app.AppComponent =
     ng.core.Component({
+      directives: [app.HeroDetailComponent],
       selector: "my-app",
       template: `
         <h1>{{title}}</h1>
@@ -40,14 +36,7 @@
             <span class="heroes__text">{{hero.name}}</span>
           </li>
         </ul>
-        <div *ngIf="selectedHero.id">
-          <h2>{{selectedHero.name}} details!</h2>
-          <div><label>id: </label>{{selectedHero.id}}</div>
-          <div>
-              <label>name: </label>
-              <input [(ngModel)]="selectedHero.name" placeholder="name" type="text">
-          </div>
-        </div>
+        <my-hero-detail [hero]="selectedHero"></my-hero-detail>
       `,
       styles: [`
         .heroes {
@@ -103,7 +92,7 @@
       constructor: function() {
         this.title = "Tour of Heroes"
         this.heroes = HEROES
-        this.selectedHero = new Hero // type hint for JS VM
+        this.selectedHero
       },
       onSelect(hero) {
         this.selectedHero = hero

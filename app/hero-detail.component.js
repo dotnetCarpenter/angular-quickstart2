@@ -1,4 +1,5 @@
 (function(app) {
+  "use strict"
 
   //const Hero = app.Hero // needed for TS @input
   // - in js we use 'inputs' and just add the name of our public API; 'hero',
@@ -20,8 +21,6 @@
 			inputs: ["hero"]
     })
     .Class({
-      constructor: function() {
-				//this.hero
-      }
+      constructor: function() {}
     })
 })(window.app || (window.app = {}))

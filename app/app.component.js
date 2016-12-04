@@ -1,26 +1,11 @@
 (function(app) {
-
-  const Hero = app.Hero
-
-  /**
-   * @description The HEROES array is of type Hero, the class defined in part one, to create an array of heroes. We aspire to fetch this list of heroes from a web service, but let’s take small steps first and display mock heroes.
-   */
-  const HEROES = [
-    new Hero({ id: 11, name: "Mr. Nice" }),
-    new Hero({ id: 12, name: "Narco" }),
-    new Hero({ id: 13, name: "Bombasto" }),
-    new Hero({ id: 14, name: "Celeritas" }),
-    new Hero({ id: 15, name: "Magneta" }),
-    new Hero({ id: 16, name: "RubberMan" }),
-    new Hero({ id: 17, name: "Dynama" }),
-    new Hero({ id: 18, name: "Dr IQ" }),
-    new Hero({ id: 19, name: "Magma" }),
-    new Hero({ id: 20, name: "Tornado" })
-  ]
+  "use strict"
 
   app.AppComponent =
     ng.core.Component({
       directives: [app.HeroDetailComponent],
+      // for providers see: http://stackoverflow.com/questions/34532138/how-to-inject-custom-service-to-angular-component-in-plain-es5-javascript#34533955
+      providers: [app.HeroService],
       selector: "my-app",
       template: `
         <h1>{{title}}</h1>
@@ -89,13 +74,22 @@
       `]
     })
     .Class({
-      constructor: function() {
+      constructor: [app.HeroService, function(heroService) {
         this.title = "Tour of Heroes"
-        this.heroes = HEROES
+        this.heroService = heroService
+        this.heroes = []
         this.selectedHero
+      }],
+      ngOnInit() {
+        this.getHeroes()
       },
       onSelect(hero) {
         this.selectedHero = hero
+      },
+      getHeroes() {
+        this.heroService.getHeroes().then(heroes => { this.heroes = heroes })
+        // Mock out 2 seconds latency to load heroes
+        //this.heroService.getHeroesSlowly().then(heroes => { this.heroes = heroes })
       }
     })
 })(window.app || (window.app = {}))

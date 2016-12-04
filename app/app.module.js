@@ -1,4 +1,8 @@
 (function(app) {
+  "use strict"
+
+//  ng.core.enableProdMode()
+
   app.AppModule =
     ng.core.NgModule({
       imports: [

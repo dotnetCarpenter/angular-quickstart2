@@ -1,4 +1,6 @@
 (function(app) {
+	"use strict"
+
 	class Hero {
 		constructor(conf = {}) {
 			this.id = conf.id || 0|0
